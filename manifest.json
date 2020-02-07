@@ -1,0 +1,17 @@
+{
+    "name": "Share your Garmin workout",
+    "version": "1.0",
+    "description": "Share your personal workout with your friends",
+
+    "content_scripts": [
+	   {
+	     "matches": ["https://connect.garmin.com/modern/workout/*"],
+	     "js": ["garmin-share.js"]
+	   },
+	   {
+	     "matches": ["https://connect.garmin.com/modern/workouts*"],
+	     "js": ["garmin-import.js"]
+	   }
+ 	],
+    "manifest_version": 2
+ }
