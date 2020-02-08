@@ -1,7 +1,12 @@
  class GarminImport{
 	
-	static createWorkoutButtonSelector = 'button.create-workout';
-	static getWorkoutEndpoint = 'https://connect.garmin.com/modern/proxy/workout-service/workout/';
+	static createWorkoutButtonSelector = '#save-workout';
+	static addWorkoutEndpoint = 'https://connect.garmin.com/modern/proxy/workout-service/workout';
+	static workoutTemplate = {
+		"sportType": {},
+		"workoutName": "",
+		"workoutSegments": []
+	};
 
 	run(){
 		this.waitPageLoaded();
@@ -39,13 +44,68 @@
         
 		let createButton = document.querySelectorAll(GarminImport.createWorkoutButtonSelector);
 		let importButton = createButton[0].cloneNode(true);
+
+		var inputFile = document.createElement('input');
+		inputFile.setAttribute('type', 'file');
+		inputFile.setAttribute('id', 'garmin-share-workout-file');
+		inputFile.style.display = 'none';
+		
 		importButton = GarminImport.prepareImportButton(importButton);
-		createButton[0].parentNode.insertBefore(importButton, createButton[0].nextSibling);	
+		importButton.addEventListener('click', function(event){
+			inputFile.click();
+			event.preventDefault();
+		}) ;
+
+		inputFile.addEventListener('change', GarminImport.upload);
+
+		createButton[0].parentNode.insertBefore(importButton, createButton[0].nextSibling);
+		createButton[0].parentNode.insertBefore(inputFile, createButton[0].nextSibling);
 
 	}
 
 
-	static ajaxRequest(method, url, callback){
+	static upload(){
+		
+		var files = this.files;
+		for (var i = 0, file; file = files[i]; ++i) {
+			var reader = new FileReader();
+					
+			reader.onload = function(e) {
+				let payload = GarminImport.createWorkoutPayload(JSON.parse(e.target.result));
+				GarminImport.ajaxRequest('POST', GarminImport.addWorkoutEndpoint, payload, function(xhr){
+					window.alert('Workout imported correctly');
+				});
+			};
+	
+			reader.readAsBinaryString(file);	
+		}
+	}
+
+
+	static createWorkoutPayload(uploadedJson){
+		let compiledTemplate = GarminImport.workoutTemplate;
+		compiledTemplate['sportType'] = uploadedJson['sportType'];
+		compiledTemplate['workoutName'] = uploadedJson['workoutName'];
+		if(uploadedJson['author']['fullName'] !== undefined){
+			compiledTemplate['workoutName'] += ' - Shared by ' + uploadedJson['author']['fullName'];
+		}
+		compiledTemplate['workoutSegments'] = uploadedJson['workoutSegments'];
+		let segmentsNumber = compiledTemplate['workoutSegments'].length;
+		for(let x=0; x<segmentsNumber; x++){
+			let segment = compiledTemplate['workoutSegments'][x];
+			for(let y=0; y<segment['workoutSteps'].length; y++){
+				let workoutStep = segment['workoutSteps'][y];
+				workoutStep['stepId'] = null;
+				segment['workoutSteps'][y] = workoutStep;
+			}
+			compiledTemplate['workoutSegments'][x] = segment;
+		}
+
+		return compiledTemplate;
+	}
+
+
+	static ajaxRequest(method, url, payload, callback){
 		let xhr = new XMLHttpRequest();
 		
 		xhr.onreadystatechange = function() {
@@ -54,8 +114,14 @@
 			}
 		};
 
-		xhr.open(method, url);
-		xhr.send();
+		xhr.open(method, url, true);
+		xhr.setRequestHeader("Content-Type", "application/json");
+		xhr.setRequestHeader("x-app-ver", "4.27.1.0");
+		xhr.setRequestHeader("x-requested-with", "XMLHttpRequest");
+
+
+		//xhr.setRequestHeader("referer", "https://connect.garmin.com/modern/workout/create/swimming");
+		xhr.send(JSON.stringify(payload));
 	}
 
 }

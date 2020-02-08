@@ -9,9 +9,13 @@
 	     "js": ["garmin-share.js"]
 	   },
 	   {
-	     "matches": ["https://connect.garmin.com/modern/workouts*"],
+	     "matches": ["https://connect.garmin.com/modern/workout/create/*"],
 	     "js": ["garmin-import.js"]
 	   }
- 	],
+	 ],
+	"permissions": [
+		"webRequest",
+		"*://connect.garmin.com/*"
+	],
     "manifest_version": 2
  }
