@@ -14,7 +14,7 @@
 	     "js": ["garmin-share.js"]
 	   },
 	   {
-	     "matches": ["https://connect.garmin.com/modern/workout/create/*"],
+	     "matches": ["https://connect.garmin.com/modern/workouts"],
 	     "js": ["garmin-import.js"]
 	   }
 	 ],

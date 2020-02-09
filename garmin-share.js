@@ -3,20 +3,16 @@ class GarminShare{
 	static sendButtonSelector = '[data-target="#send-to-device"]';
 	static getWorkoutEndpoint = 'https://connect.garmin.com/modern/proxy/workout-service/workout/';
 
-	constructor(){
-		
-	}
-
-	run(){
+	static run(){
 		GarminShare.waitPageLoaded();
 		GarminShare.addEvents();
 	}
 
-	addEvents(){
+	static addEvents(){
 		document.addEventListener('GarminPageLoadedCorrectly', GarminShare.getWorkout);
 	}
 
-	waitPageLoaded(){
+	static waitPageLoaded(){
 		
 		var checkDomInterval = setInterval(function(){
 			let addButton = document.querySelectorAll(GarminShare.sendButtonSelector);

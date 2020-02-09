@@ -1,23 +1,28 @@
  class GarminImport{
 	
-	static createWorkoutButtonSelector = '#save-workout';
+	static createWorkoutButtonSelector = 'button.create-workout';
 	static addWorkoutEndpoint = 'https://connect.garmin.com/modern/proxy/workout-service/workout';
-	static workoutTemplate = {
-		"sportType": {},
-		"workoutName": "",
-		"workoutSegments": []
-	};
 
-	run(){
+	static deleteProps = [
+		'workoutId',
+		'ownerId',
+		'updatedDate',
+		'createdDate',
+		'author',
+		'estimatedDurationInSecs',
+		'estimatedDistanceInMeters'
+	]
+
+	static run(){
 		GarminImport.waitPageLoaded();
 		GarminImport.addEvents();
 	}
 
-	addEvents(){
+	static addEvents(){
 		document.addEventListener('GarminPageLoadedCorrectly', GarminImport.injectImportButton);
 	}
 
-	waitPageLoaded(){
+	static waitPageLoaded(){
 		
 		var checkDomInterval = setInterval(function(){
 			let createButton = document.querySelectorAll(GarminImport.createWorkoutButtonSelector);
@@ -85,29 +90,32 @@
 
 
 	static createWorkoutPayload(uploadedJson){
-		let compiledTemplate = GarminImport.workoutTemplate;
-		compiledTemplate['sportType'] = uploadedJson['sportType'];
-		compiledTemplate['workoutName'] = uploadedJson['workoutName'];
-		if(uploadedJson['author'] !== undefined){
-			compiledTemplate['workoutName'] += ' - Shared by ' + uploadedJson['author']['fullName'];
+		// Delete all the unwanted props
+		for (const propName in GarminImport.deleteProps){
+			if(uploadedJson[propName] !== undefined){
+				delete uploadedJson[propName];
+			}
 		}
-		compiledTemplate['workoutSegments'] = uploadedJson['workoutSegments'];
-		let segmentsNumber = compiledTemplate['workoutSegments'].length;
+
+		let segmentsNumber = uploadedJson['workoutSegments'].length;
 		for(let x=0; x<segmentsNumber; x++){
-			let segment = compiledTemplate['workoutSegments'][x];
+			let segment = uploadedJson['workoutSegments'][x];
 			for(let y=0; y<segment['workoutSteps'].length; y++){
 				let workoutStep = segment['workoutSteps'][y];
 				workoutStep['stepId'] = null;
 				segment['workoutSteps'][y] = workoutStep;
 			}
-			compiledTemplate['workoutSegments'][x] = segment;
+			uploadedJson['workoutSegments'][x] = segment;
 		}
 
-		return compiledTemplate;
+		return uploadedJson;
 	}
 
 
 	static ajaxRequest(method, url, payload, callback){
+
+		let garminVersion = document.getElementById('garmin-connect-version');
+
 		let xhr = new XMLHttpRequest();
 		
 		xhr.onreadystatechange = function() {
@@ -121,7 +129,7 @@
 		xhr.setRequestHeader("Accept", "application/json, text/javascript, */*; q=0.01");
 
 		
-		xhr.setRequestHeader("x-app-ver", "4.27.1.0");
+		xhr.setRequestHeader("x-app-ver", garminVersion.innerText || '4.27.1.0');
 		xhr.setRequestHeader("x-requested-with", "XMLHttpRequest");
 		xhr.setRequestHeader("x-lang", "it-IT");
 		xhr.setRequestHeader("nk", "NT");
