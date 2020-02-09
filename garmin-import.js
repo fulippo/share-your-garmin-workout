@@ -30,7 +30,7 @@
 	}
 
 	static prepareImportButton(button){
-		button.innerHTML = 'Import Workout';
+		button.innerHTML = chrome.i18n.getMessage('importButtonLabel');;
 		button.removeAttribute('disabled');
 		button.style.marginLeft = '3px';
 		button.setAttribute('class', 'btn btn-form');
@@ -73,7 +73,7 @@
 			reader.onload = function(e) {
 				let payload = GarminImport.createWorkoutPayload(JSON.parse(e.target.result));
 				GarminImport.ajaxRequest('POST', GarminImport.addWorkoutEndpoint, payload, function(response){
-					window.alert('Workout imported correctly');
+					window.alert(chrome.i18n.getMessage('workoutUploadedCorrectly'));
 					let copiedWorkout = JSON.parse(response);
 					window.location.href = 'https://connect.garmin.com/modern/workout/' + copiedWorkout['workoutId'];
 				});

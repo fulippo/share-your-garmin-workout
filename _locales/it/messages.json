@@ -1,0 +1,11 @@
+{
+    "downloadButtonLabel": {
+        "message": "Scarica allenamento"
+    },
+    "importButtonLabel": {
+        "message": "Importa allenamento"
+    },
+    "workoutUploadedCorrectly": {
+        "message": "Allenamento caricato correttamente"
+    }
+}

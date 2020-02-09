@@ -29,7 +29,7 @@ class GarminShare{
 	}
 
 	static prepareShareButton(button){
-		button.text = 'Download Workout';
+		button.text = chrome.i18n.getMessage('downloadButtonLabel');
 		button.removeAttribute('data-target');
 		button.removeAttribute('data-toggle');
 		button.style.marginLeft = '3px';
