@@ -72,8 +72,10 @@
 					
 			reader.onload = function(e) {
 				let payload = GarminImport.createWorkoutPayload(JSON.parse(e.target.result));
-				GarminImport.ajaxRequest('POST', GarminImport.addWorkoutEndpoint, payload, function(xhr){
+				GarminImport.ajaxRequest('POST', GarminImport.addWorkoutEndpoint, payload, function(response){
 					window.alert('Workout imported correctly');
+					let copiedWorkout = JSON.parse(response);
+					window.location.href = 'https://connect.garmin.com/modern/workout/' + copiedWorkout['workoutId'];
 				});
 			};
 	
@@ -86,7 +88,7 @@
 		let compiledTemplate = GarminImport.workoutTemplate;
 		compiledTemplate['sportType'] = uploadedJson['sportType'];
 		compiledTemplate['workoutName'] = uploadedJson['workoutName'];
-		if(uploadedJson['author']['fullName'] !== undefined){
+		if(uploadedJson['author'] !== undefined){
 			compiledTemplate['workoutName'] += ' - Shared by ' + uploadedJson['author']['fullName'];
 		}
 		compiledTemplate['workoutSegments'] = uploadedJson['workoutSegments'];
@@ -116,11 +118,16 @@
 
 		xhr.open(method, url, true);
 		xhr.setRequestHeader("Content-Type", "application/json");
+		xhr.setRequestHeader("Accept", "application/json, text/javascript, */*; q=0.01");
+
+		
 		xhr.setRequestHeader("x-app-ver", "4.27.1.0");
 		xhr.setRequestHeader("x-requested-with", "XMLHttpRequest");
+		xhr.setRequestHeader("x-lang", "it-IT");
+		xhr.setRequestHeader("nk", "NT");
+		xhr.withCredentials = true;
 
-
-		//xhr.setRequestHeader("referer", "https://connect.garmin.com/modern/workout/create/swimming");
+		//xhr.setRequestHeader("referer", "https://connect.garmin.com/modern/workout/create/running");
 		xhr.send(JSON.stringify(payload));
 	}
 
