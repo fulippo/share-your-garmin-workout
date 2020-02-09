@@ -9,8 +9,8 @@
 	};
 
 	run(){
-		this.waitPageLoaded();
-		this.addEvents();
+		GarminImport.waitPageLoaded();
+		GarminImport.addEvents();
 	}
 
 	addEvents(){
@@ -133,5 +133,4 @@
 
 }
 
-g = new GarminImport();
-g.run();
+GarminImport.run();

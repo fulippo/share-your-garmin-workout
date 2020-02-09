@@ -8,8 +8,8 @@ class GarminShare{
 	}
 
 	run(){
-		this.waitPageLoaded();
-		this.addEvents();
+		GarminShare.waitPageLoaded();
+		GarminShare.addEvents();
 	}
 
 	addEvents(){
@@ -83,5 +83,4 @@ class GarminShare{
 
 }
 
-g = new GarminShare();
-g.run();
+GarminShare.run();
