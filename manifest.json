@@ -9,15 +9,15 @@
 		"48": "icons/gsyw_48.png"
 	},
     "content_scripts": [
-	   {
-	     "matches": ["https://connect.garmin.com/modern/workout/*"],
-	     "js": ["garmin-share.js"]
-	   },
-	   {
-	     "matches": ["https://connect.garmin.com/modern/workouts"],
-	     "js": ["garmin-import.js"]
-	   }
+		{
+			"matches": ["https://connect.garmin.com/*"],
+			"run_at": "document_idle",
+			"js": ["garmin-inject.js"]
+		}
 	 ],
+	"web_accessible_resources": [
+		"share-your-workout.js"
+	],
 	"permissions": [
 		"webRequest",
 		"*://connect.garmin.com/*"

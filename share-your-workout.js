@@ -1,4 +1,78 @@
- class GarminImport{
+class GarminShare{
+	
+	static sendButtonSelector = '[data-target="#send-to-device"]';
+	static getWorkoutEndpoint = 'https://connect.garmin.com/modern/proxy/workout-service/workout/';
+
+
+	static addEvents(){
+		document.addEventListener('GarminShareWorkoutReady', GarminShare.getWorkout);
+	}
+
+
+	static prepareShareButton(button){
+		button.text = 'Download';
+		button.removeAttribute('data-target');
+		button.removeAttribute('data-toggle');
+		button.style.marginLeft = '3px';
+		button.setAttribute('class', 'btn btn-small');
+		button.setAttribute('id', 'garmin-share-button');
+		return button;
+	}
+
+
+
+	static injectShareButton(workoutText){
+		
+		if(document.getElementById('garmin-share-button')){
+			return; // button already there
+		}
+
+        let jsonBlob = new Blob([workoutText], { type: "text/plain;charset=utf-8" });
+        let url = window.URL || window.webkitURL;
+        let link = url.createObjectURL(jsonBlob);
+
+		let addButton = document.querySelectorAll(GarminShare.sendButtonSelector);
+		let shareButton = addButton[0].cloneNode(true);
+		shareButton = GarminShare.prepareShareButton(shareButton);
+		shareButton.download = 'workout.json';
+		shareButton.href = link;
+		addButton[0].parentNode.insertBefore(shareButton, addButton[0].nextSibling);	
+
+	}
+
+
+	static ajaxRequest(method, url, callback){
+		let xhr = new XMLHttpRequest();
+		
+		xhr.onreadystatechange = function() {
+			if (this.readyState == 4 && this.status == 200) {
+				callback(xhr.response);
+			}
+		};
+
+		xhr.open(method, url);
+		xhr.send();
+	}
+
+	static downloadWorkout(xhr){
+		let workoutJson = "data:text/json;charset=utf-8," + encodeURIComponent(xhr.response);
+		window.open(workoutJson);
+
+	}
+
+	static getWorkout(){
+		let workoutID = document.URL.split('/').slice(-1).pop();
+		if(workoutID.match(new RegExp('^[0-9]+$'))){
+			GarminShare.ajaxRequest('GET', GarminShare.getWorkoutEndpoint + workoutID, GarminShare.injectShareButton);
+		}
+	}
+
+
+
+}
+GarminShare.addEvents();
+
+class GarminImport{
 	
 	static createWorkoutButtonSelector = 'button.create-workout';
 	static addWorkoutEndpoint = 'https://connect.garmin.com/modern/proxy/workout-service/workout';
@@ -13,29 +87,12 @@
 		'estimatedDistanceInMeters'
 	]
 
-	static run(){
-		GarminImport.waitPageLoaded();
-		GarminImport.addEvents();
-	}
-
 	static addEvents(){
-		document.addEventListener('GarminPageLoadedCorrectly', GarminImport.injectImportButton);
-	}
-
-	static waitPageLoaded(){
-		
-		var checkDomInterval = setInterval(function(){
-			let createButton = document.querySelectorAll(GarminImport.createWorkoutButtonSelector);
-			if(createButton.length > 0){
-				clearInterval(checkDomInterval);
-				let evt = new Event('GarminPageLoadedCorrectly')
-				document.dispatchEvent(evt)
-			}
-		}, 100);
+		document.addEventListener('GarminImportWorkoutReady', GarminImport.injectImportButton);
 	}
 
 	static prepareImportButton(button){
-		button.innerHTML = chrome.i18n.getMessage('importButtonLabel');;
+		button.innerHTML = 'Import Workout';
 		button.removeAttribute('disabled');
 		button.style.marginLeft = '3px';
 		button.setAttribute('class', 'btn btn-form');
@@ -47,6 +104,10 @@
 	static injectImportButton(workoutText){
 		
         
+		if(document.getElementById('garmin-share-workout-file')){
+			return; // Button already there
+		}
+
 		let createButton = document.querySelectorAll(GarminImport.createWorkoutButtonSelector);
 		let importButton = createButton[0].cloneNode(true);
 
@@ -78,7 +139,7 @@
 			reader.onload = function(e) {
 				let payload = GarminImport.createWorkoutPayload(JSON.parse(e.target.result));
 				GarminImport.ajaxRequest('POST', GarminImport.addWorkoutEndpoint, payload, function(response){
-					window.alert(chrome.i18n.getMessage('workoutUploadedCorrectly'));
+					window.alert('Workout imported correctly');
 					let copiedWorkout = JSON.parse(response);
 					window.location.href = 'https://connect.garmin.com/modern/workout/' + copiedWorkout['workoutId'];
 				});
@@ -140,5 +201,40 @@
 	}
 
 }
+GarminImport.addEvents();
 
-GarminImport.run();
+class GarminEvent{
+
+	static waitPageLoaded(){
+		let MutationObserver = window.MutationObserver || window.WebKitMutationObserver;
+
+		let observer = new MutationObserver(function(mutations, observer) {
+		    var evtName = null;
+			var evt = null;
+			let mutation = mutations.pop();
+			let target = mutation.target;
+			
+			if( target.classList.contains('body-workouts-index') && mutation.oldValue.indexOf('body-workouts-index') !== -1 ){
+				evtName = 'GarminImportWorkoutReady';
+			} else if( target.classList.contains('body-workout') && mutation.oldValue.indexOf('body-workout') !== -1 ){
+				evtName = 'GarminShareWorkoutReady';
+			}
+
+			if ( evtName ){
+				evt = new Event(evtName);
+				document.dispatchEvent(evt);
+			}
+		});
+
+		observer.observe(document.getElementsByTagName('body')[0], {
+		  subtree: false,
+		  attributes: true,
+		  attributeOldValue: true,
+		  attributeFilter: ['class']
+		});
+
+		
+	}
+}
+
+GarminEvent.waitPageLoaded()
