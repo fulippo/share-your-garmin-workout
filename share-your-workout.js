@@ -8,7 +8,6 @@ class GarminShare{
 		document.addEventListener('GarminShareWorkoutReady', GarminShare.getWorkout);
 	}
 
-
 	static prepareShareButton(button){
 		button.text = 'Download';
 		button.removeAttribute('data-target');
@@ -157,6 +156,9 @@ class GarminImport{
 				delete uploadedJson[propName];
 			}
 		}
+		
+		// workout name
+		uploadedJson['workoutName'] += ' - copy';
 
 		let segmentsNumber = uploadedJson['workoutSegments'].length;
 		for(let x=0; x<segmentsNumber; x++){
@@ -196,7 +198,6 @@ class GarminImport{
 		xhr.setRequestHeader("nk", "NT");
 		xhr.withCredentials = true;
 
-		//xhr.setRequestHeader("referer", "https://connect.garmin.com/modern/workout/create/running");
 		xhr.send(JSON.stringify(payload));
 	}
 
