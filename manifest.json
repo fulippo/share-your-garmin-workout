@@ -1,6 +1,6 @@
 {
     "name": "Share your Garmin Connect workout",
-    "version": "1.0.2",
+    "version": "1.0.3",
     "description": "Share your personal workout on Garmin Connect with other users",
 	"author": "Filippo Pisano",
 	"default_locale": "en",

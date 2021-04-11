@@ -1,6 +1,4 @@
 class GarminInject{
-	
-	
 	static run(){
 		var node = document.getElementsByTagName('body')[0];
 		var script = document.createElement('script');

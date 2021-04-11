@@ -1,8 +1,7 @@
-class GarminShare{
+class GarminShare {
 	
 	static sendButtonSelector = '[data-target="#send-to-device"]';
 	static getWorkoutEndpoint = 'https://connect.garmin.com/modern/proxy/workout-service/workout/';
-
 
 	static addEvents(){
 		document.addEventListener('GarminShareWorkoutReady', GarminShare.getWorkout);
@@ -18,8 +17,6 @@ class GarminShare{
 		return button;
 	}
 
-
-
 	static injectShareButton(workoutText){
 		
 		if(document.getElementById('garmin-share-button')){
@@ -29,16 +26,17 @@ class GarminShare{
         let jsonBlob = new Blob([workoutText], { type: "text/plain;charset=utf-8" });
         let url = window.URL || window.webkitURL;
         let link = url.createObjectURL(jsonBlob);
+		let workout = JSON.parse(workoutText);
+		let title = workout.workoutName.replace(/[^a-z0-9]+/g, '-');
 
 		let addButton = document.querySelectorAll(GarminShare.sendButtonSelector);
 		let shareButton = addButton[0].cloneNode(true);
 		shareButton = GarminShare.prepareShareButton(shareButton);
-		shareButton.download = 'workout.json';
+		shareButton.download = title + '.json';
 		shareButton.href = link;
 		addButton[0].parentNode.insertBefore(shareButton, addButton[0].nextSibling);	
 
 	}
-
 
 	static ajaxRequest(method, url, callback){
 		let xhr = new XMLHttpRequest();
@@ -49,7 +47,14 @@ class GarminShare{
 			}
 		};
 
-		xhr.open(method, url);
+		xhr.open(method, url);		
+		xhr.setRequestHeader("x-app-ver", "4.41.1.0");
+		xhr.setRequestHeader("x-requested-with", "XMLHttpRequest");
+		xhr.setRequestHeader("x-lang", "it-IT");
+		xhr.setRequestHeader("nk", "NT");
+
+		xhr.withCredentials = true;
+
 		xhr.send();
 	}
 
@@ -61,13 +66,11 @@ class GarminShare{
 
 	static getWorkout(){
 		let workoutID = document.URL.split('/').slice(-1).pop();
+		let cacheBust = '?_=' + Date.now();
 		if(workoutID.match(new RegExp('^[0-9]+$'))){
-			GarminShare.ajaxRequest('GET', GarminShare.getWorkoutEndpoint + workoutID, GarminShare.injectShareButton);
+			GarminShare.ajaxRequest('GET', GarminShare.getWorkoutEndpoint + workoutID + cacheBust, GarminShare.injectShareButton);
 		}
 	}
-
-
-
 }
 GarminShare.addEvents();
 
