@@ -12,7 +12,7 @@ class GarminShare {
 		button.removeAttribute('data-target');
 		button.removeAttribute('data-toggle');
 		button.style.marginLeft = '3px';
-		button.setAttribute('class', 'btn btn-small');
+		button.setAttribute('class', 'btn btn-medium');
 		button.setAttribute('id', 'garmin-share-button');
 		return button;
 	}
