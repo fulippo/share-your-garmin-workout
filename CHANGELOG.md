@@ -1,3 +1,7 @@
+## 1.10.0
+ - Fixed API changes
+ - Improved README with screenshots
+ - Migrated to V3 Manifest
 ## 1.0.5
  - Removed unused webRequest permission
 ## 1.0.4
