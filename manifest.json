@@ -39,7 +39,7 @@
 		
 	],
 	"permissions": [
-		
+
 	],
 	"host_permissions": [
 		"*://connect.garmin.com/*"
