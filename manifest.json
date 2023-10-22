@@ -39,8 +39,7 @@
 		
 	],
 	"permissions": [
-		"storage",
-		"unlimitedStorage"
+
 	],
 	"host_permissions": [
 		"*://connect.garmin.com/*"
