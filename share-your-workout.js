@@ -1,7 +1,7 @@
 class GarminShare {
 	
 	static sendButtonSelector = '[data-target="#send-to-device"]';
-	static getWorkoutEndpoint = 'https://connect.garmin.com/modern/proxy/workout-service/workout/';
+	static getWorkoutEndpoint = 'https://connect.garmin.com/workout-service/workout/';
 
 	static addEvents(){
 		document.addEventListener('GarminShareWorkoutReady', GarminShare.getWorkout);
@@ -40,21 +40,26 @@ class GarminShare {
 
 	static ajaxRequest(method, url, callback){
 		let xhr = new XMLHttpRequest();
+
 		
 		xhr.onreadystatechange = function() {
 			if (this.readyState == 4 && this.status == 200) {
 				callback(xhr.response);
 			}
 		};
-
+		let localStoredToken = window.localStorage.getItem("token");
+		let accessTokenMap = JSON.parse(localStoredToken);
+		let token = accessTokenMap.access_token;
+		
 		xhr.open(method, url);		
 		xhr.setRequestHeader("x-app-ver", "4.41.1.0");
 		xhr.setRequestHeader("x-requested-with", "XMLHttpRequest");
 		xhr.setRequestHeader("x-lang", "it-IT");
 		xhr.setRequestHeader("nk", "NT");
+		xhr.setRequestHeader("Di-Backend", "connectapi.garmin.com");
+		xhr.setRequestHeader("authorization", "Bearer "+token);
 
 		xhr.withCredentials = true;
-
 		xhr.send();
 	}
 
@@ -66,9 +71,9 @@ class GarminShare {
 
 	static getWorkout(){
 		let workoutID = document.URL.split('/').slice(-1).pop();
-		let cacheBust = '?_=' + Date.now();
+		let queryString = '?includeAudioNotes=true&_=' + Date.now();
 		if(workoutID.match(new RegExp('^[0-9]+$'))){
-			GarminShare.ajaxRequest('GET', GarminShare.getWorkoutEndpoint + workoutID + cacheBust, GarminShare.injectShareButton);
+			GarminShare.ajaxRequest('GET', GarminShare.getWorkoutEndpoint + workoutID + queryString, GarminShare.injectShareButton);
 		}
 	}
 }
@@ -77,7 +82,7 @@ GarminShare.addEvents();
 class GarminImport{
 	
 	static createWorkoutButtonSelector = 'button.create-workout';
-	static addWorkoutEndpoint = 'https://connect.garmin.com/modern/proxy/workout-service/workout';
+	static addWorkoutEndpoint = 'https://connect.garmin.com/workout-service/workout';
 
 	static deleteProps = [
 		'workoutId',
@@ -181,7 +186,6 @@ class GarminImport{
 	static ajaxRequest(method, url, payload, callback){
 
 		let garminVersion = document.getElementById('garmin-connect-version');
-
 		let xhr = new XMLHttpRequest();
 		
 		xhr.onreadystatechange = function() {
@@ -190,18 +194,27 @@ class GarminImport{
 			}
 		};
 
+		let localStoredToken = window.localStorage.getItem("token");
+		let accessTokenMap = JSON.parse(localStoredToken);
+		let token = accessTokenMap.access_token;
+
+		console.log("Fulippo: ", payload);
+		
 		xhr.open(method, url, true);
 		xhr.setRequestHeader("Content-Type", "application/json");
 		xhr.setRequestHeader("Accept", "application/json, text/javascript, */*; q=0.01");
-
-		
+	
 		xhr.setRequestHeader("x-app-ver", garminVersion.innerText || '4.27.1.0');
 		xhr.setRequestHeader("x-requested-with", "XMLHttpRequest");
 		xhr.setRequestHeader("x-lang", "it-IT");
 		xhr.setRequestHeader("nk", "NT");
+		xhr.setRequestHeader("Di-Backend", "connectapi.garmin.com");
+		xhr.setRequestHeader("authorization", "Bearer "+token);
 		xhr.withCredentials = true;
 
 		xhr.send(JSON.stringify(payload));
+
+		
 	}
 
 }
