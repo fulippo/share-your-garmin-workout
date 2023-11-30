@@ -1,4 +1,6 @@
-## 1.10.0
+## 1.1.1
+ - Added support to connect.garmin.cn
+## 1.1.0
  - Fixed API changes
  - Improved README with screenshots
  - Migrated to V3 Manifest

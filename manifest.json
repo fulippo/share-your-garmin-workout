@@ -1,6 +1,6 @@
 {
 	"name": "Share your Garmin Connect workout",
-	"version": "1.1.0",
+	"version": "1.1.1",
 	"description": "Share your personal workout on Garmin Connect with other users",
 	"author": "Filippo Pisano",
 	"default_locale": "en",
@@ -19,7 +19,8 @@
 	"content_scripts": [
 		{
 			"matches": [
-				"https://connect.garmin.com/*"
+				"https://connect.garmin.com/*",
+				"https://connect.garmin.cn/*"
 			],
 			"run_at": "document_idle",
 			"js": [
@@ -33,7 +34,8 @@
 				"share-your-workout.js"
 			],
 			"matches": [
-				"https://connect.garmin.com/*"
+				"https://connect.garmin.com/*",
+				"https://connect.garmin.cn/*"
 			  ]
 		}
 		
@@ -42,7 +44,8 @@
 
 	],
 	"host_permissions": [
-		"*://connect.garmin.com/*"
+		"*://connect.garmin.com/*",
+		"*://connect.garmin.cn/*"
 	],
 	"manifest_version": 3
 }
