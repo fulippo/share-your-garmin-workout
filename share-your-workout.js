@@ -72,8 +72,9 @@ class GarminShare {
 	static getWorkout(){
 		let workoutID = document.URL.split('/').slice(-1).pop();
 		let queryString = '?includeAudioNotes=true&_=' + Date.now();
-		if(workoutID.match(new RegExp('^[0-9]+$'))){
-			GarminShare.ajaxRequest('GET', GarminShare.getWorkoutEndpoint + workoutID + queryString, GarminShare.injectShareButton);
+		let workoutMatchID = workoutID.match(new RegExp('^([0-9]+)'))
+		if (workoutMatchID.length > 0){
+			GarminShare.ajaxRequest('GET', GarminShare.getWorkoutEndpoint + workoutMatchID[0] + queryString, GarminShare.injectShareButton);
 		}
 	}
 }

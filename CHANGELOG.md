@@ -1,3 +1,5 @@
+## 1.1.2
+ - Fixed regex to extract workout ID after Garmin has changed the URL structure
 ## 1.1.1
  - Added support to connect.garmin.cn
 ## 1.1.0
