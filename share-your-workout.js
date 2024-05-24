@@ -1,6 +1,6 @@
 class GarminShare {
 	
-	static sendButtonSelector = '[data-target="#send-to-device"]';
+	static sendButtonSelector = 'span a.send-to-device';
 	static getWorkoutEndpoint = 'https://connect.garmin.com/workout-service/workout/';
 
 	static addEvents(){
@@ -27,7 +27,7 @@ class GarminShare {
         let url = window.URL || window.webkitURL;
         let link = url.createObjectURL(jsonBlob);
 		let workout = JSON.parse(workoutText);
-		let title = workout.workoutName.replace(/[^a-z0-9]+/g, '-');
+		let title = workout.workoutName.replace(/[^a-z0-9A-Z]+/g, '-');
 
 		let addButton = document.querySelectorAll(GarminShare.sendButtonSelector);
 		let shareButton = addButton[0].cloneNode(true);
@@ -234,7 +234,7 @@ class GarminEvent{
 			
 			if( target.classList.contains('body-workouts-index') && mutation.oldValue.indexOf('body-workouts-index') !== -1 ){
 				evtName = 'GarminImportWorkoutReady';
-			} else if( target.classList.contains('body-workout') && mutation.oldValue.indexOf('body-workout') !== -1 ){
+			} else if (target.classList.contains('body-workout') && mutation.oldValue.indexOf('body-workout') !== -1 ){
 				evtName = 'GarminShareWorkoutReady';
 			}
 
