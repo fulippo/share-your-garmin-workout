@@ -1,6 +1,7 @@
 class GarminShare {
 	
 	static sendButtonSelector = 'span a.send-to-device';
+	static sendButtonAlternativeSelector = '#headerBtnRightState-readonly button'
 	static getWorkoutEndpoint = 'https://connect.garmin.com/workout-service/workout/';
 
 	static addEvents(){
@@ -30,11 +31,25 @@ class GarminShare {
 		let title = workout.workoutName.replace(/[^a-z0-9A-Z]+/g, '-');
 
 		let addButton = document.querySelectorAll(GarminShare.sendButtonSelector);
-		let shareButton = addButton[0].cloneNode(true);
+		let oldAddButton = document.querySelectorAll(GarminShare.sendButtonAlternativeSelector);
+		if (addButton.length == 0 && oldAddButton.length == 0){
+			console.warn("Could not find SendToDevice button to clone");
+			return;
+		}
+		let shareButton;
+		let parentNode;
+		if (addButton.length > 0) {
+			shareButton = addButton[0].cloneNode(true);
+			parentNode = addButton[0];
+		} else if (oldAddButton.length > 0) {
+			shareButton = document.createElement("a")
+			parentNode = oldAddButton[0];
+		}
+		
 		shareButton = GarminShare.prepareShareButton(shareButton);
 		shareButton.download = title + '.json';
 		shareButton.href = link;
-		addButton[0].parentNode.insertBefore(shareButton, addButton[0].nextSibling);	
+		parentNode.parentNode.insertBefore(shareButton, parentNode.nextSibling);	
 
 	}
 
@@ -231,10 +246,13 @@ class GarminEvent{
 			var evt = null;
 			let mutation = mutations.pop();
 			let target = mutation.target;
+			let isWorkoutIndexPage = target.classList.contains('body-workouts-index') && mutation.oldValue.indexOf('body-workouts-index') !== -1
+			let isWorkoutPage = target.classList.contains('body-workout') && mutation.oldValue.indexOf('body-workout') !== -1
+			let isOldWorkoutPage = target.classList.contains('body-workoutPage') && mutation.oldValue.indexOf('body-workoutPage') !== -1
 			
-			if( target.classList.contains('body-workouts-index') && mutation.oldValue.indexOf('body-workouts-index') !== -1 ){
+			if ( isWorkoutIndexPage ){
 				evtName = 'GarminImportWorkoutReady';
-			} else if (target.classList.contains('body-workout') && mutation.oldValue.indexOf('body-workout') !== -1 ){
+			} else if ( isWorkoutPage || isOldWorkoutPage ){
 				evtName = 'GarminShareWorkoutReady';
 			}
 
