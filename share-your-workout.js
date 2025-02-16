@@ -168,7 +168,7 @@ class GarminImport{
 				});
 			};
 	
-			reader.readAsBinaryString(file);	
+			reader.readAsText(file);
 		}
 	}
 
