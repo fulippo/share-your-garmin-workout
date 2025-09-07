@@ -4,7 +4,6 @@
 	"description": "Download and share your Garmin Connect workouts as JSON files. Import workouts shared by friends directly into your account.",
 	"author": "Filippo Pisano",
 	"homepage_url": "https://github.com/fulippo/share-your-garmin-workout",
-	"default_locale": "en",
 	
 	"icons": {
 		"16": "icons/gsyw_16.png",

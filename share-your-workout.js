@@ -1,3 +1,141 @@
+// Built-in translations
+var TRANSLATIONS = {
+	en: {
+		downloadButtonLabel: 'Download',
+		importButtonLabel: 'Import Workout',
+		workoutImportedCorrectly: 'Workout imported correctly',
+		errorFetchWorkout: 'Failed to download workout. Please try again.',
+		errorImportWorkout: 'Failed to import workout. Please try again.',
+		errorNoAuthToken: 'Authentication token not found. Please refresh the page and try again.',
+		errorInvalidAuthData: 'Invalid authentication data. Please refresh the page and try again.',
+		errorInvalidWorkoutData: 'Invalid workout data received. Please try again.',
+		errorInvalidWorkoutFile: 'Invalid workout file. Please select a valid JSON file.',
+		errorImportResponseParsing: 'Workout imported but failed to redirect. Please check your workouts page.',
+		couldNotFindSendButton: 'Could not find SendToDevice button to clone'
+	},
+	fr: {
+		downloadButtonLabel: 'Télécharger',
+		importButtonLabel: 'Importer un entraînement',
+		workoutImportedCorrectly: 'L\'entraînement a été importé avec succès',
+		errorFetchWorkout: 'Échec du téléchargement de l\'entraînement. Veuillez réessayer.',
+		errorImportWorkout: 'Échec de l\'importation de l\'entraînement. Veuillez réessayer.',
+		errorNoAuthToken: 'Jeton d\'authentification introuvable. Veuillez actualiser la page et réessayer.',
+		errorInvalidAuthData: 'Données d\'authentification invalides. Veuillez actualiser la page et réessayer.',
+		errorInvalidWorkoutData: 'Données d\'entraînement invalides reçues. Veuillez réessayer.',
+		errorInvalidWorkoutFile: 'Fichier d\'entraînement invalide. Veuillez sélectionner un fichier JSON valide.',
+		errorImportResponseParsing: 'Entraînement importé mais échec de redirection. Veuillez vérifier votre page d\'entraînements.',
+		couldNotFindSendButton: 'Impossible de trouver le bouton SendToDevice à cloner'
+	},
+	it: {
+		downloadButtonLabel: 'Scarica',
+		importButtonLabel: 'Importa Allenamento',
+		workoutImportedCorrectly: 'Allenamento importato correttamente',
+		errorFetchWorkout: 'Impossibile scaricare l\'allenamento. Riprova.',
+		errorImportWorkout: 'Impossibile importare l\'allenamento. Riprova.',
+		errorNoAuthToken: 'Token di autenticazione non trovato. Aggiorna la pagina e riprova.',
+		errorInvalidAuthData: 'Dati di autenticazione non validi. Aggiorna la pagina e riprova.',
+		errorInvalidWorkoutData: 'Dati dell\'allenamento non validi ricevuti. Riprova.',
+		errorInvalidWorkoutFile: 'File allenamento non valido. Seleziona un file JSON valido.',
+		errorImportResponseParsing: 'Allenamento importato ma impossibile reindirizzare. Controlla la tua pagina allenamenti.',
+		couldNotFindSendButton: 'Impossibile trovare il pulsante SendToDevice da clonare'
+	},
+	de: {
+		downloadButtonLabel: 'Herunterladen',
+		importButtonLabel: 'Training importieren',
+		workoutImportedCorrectly: 'Training erfolgreich importiert',
+		errorFetchWorkout: 'Fehler beim Herunterladen des Trainings. Bitte versuchen Sie es erneut.',
+		errorImportWorkout: 'Fehler beim Importieren des Trainings. Bitte versuchen Sie es erneut.',
+		errorNoAuthToken: 'Authentifizierungstoken nicht gefunden. Bitte laden Sie die Seite neu und versuchen Sie es erneut.',
+		errorInvalidAuthData: 'Ungültige Authentifizierungsdaten. Bitte laden Sie die Seite neu und versuchen Sie es erneut.',
+		errorInvalidWorkoutData: 'Ungültige Trainingsdaten erhalten. Bitte versuchen Sie es erneut.',
+		errorInvalidWorkoutFile: 'Ungültige Trainingsdatei. Bitte wählen Sie eine gültige JSON-Datei aus.',
+		errorImportResponseParsing: 'Training importiert, aber Weiterleitung fehlgeschlagen. Bitte überprüfen Sie Ihre Trainingsseite.',
+		couldNotFindSendButton: 'SendToDevice-Schaltfläche zum Klonen nicht gefunden'
+	},
+	es: {
+		downloadButtonLabel: 'Descargar',
+		importButtonLabel: 'Importar Entrenamiento',
+		workoutImportedCorrectly: 'Entrenamiento importado correctamente',
+		errorFetchWorkout: 'Error al descargar el entrenamiento. Por favor, inténtalo de nuevo.',
+		errorImportWorkout: 'Error al importar el entrenamiento. Por favor, inténtalo de nuevo.',
+		errorNoAuthToken: 'Token de autenticación no encontrado. Por favor, actualiza la página e inténtalo de nuevo.',
+		errorInvalidAuthData: 'Datos de autenticación inválidos. Por favor, actualiza la página e inténtalo de nuevo.',
+		errorInvalidWorkoutData: 'Datos de entrenamiento inválidos recibidos. Por favor, inténtalo de nuevo.',
+		errorInvalidWorkoutFile: 'Archivo de entrenamiento inválido. Por favor, selecciona un archivo JSON válido.',
+		errorImportResponseParsing: 'Entrenamiento importado pero falló la redirección. Por favor, verifica tu página de entrenamientos.',
+		couldNotFindSendButton: 'No se pudo encontrar el botón SendToDevice para clonar'
+	},
+	pt: {
+		downloadButtonLabel: 'Baixar',
+		importButtonLabel: 'Importar Treino',
+		workoutImportedCorrectly: 'Treino importado corretamente',
+		errorFetchWorkout: 'Falha ao baixar o treino. Por favor, tente novamente.',
+		errorImportWorkout: 'Falha ao importar o treino. Por favor, tente novamente.',
+		errorNoAuthToken: 'Token de autenticação não encontrado. Por favor, atualize a página e tente novamente.',
+		errorInvalidAuthData: 'Dados de autenticação inválidos. Por favor, atualize a página e tente novamente.',
+		errorInvalidWorkoutData: 'Dados de treino inválidos recebidos. Por favor, tente novamente.',
+		errorInvalidWorkoutFile: 'Arquivo de treino inválido. Por favor, selecione um arquivo JSON válido.',
+		errorImportResponseParsing: 'Treino importado mas falha no redirecionamento. Por favor, verifique sua página de treinos.',
+		couldNotFindSendButton: 'Não foi possível encontrar o botão SendToDevice para clonar'
+	},
+	nl: {
+		downloadButtonLabel: 'Downloaden',
+		importButtonLabel: 'Training Importeren',
+		workoutImportedCorrectly: 'Training succesvol geïmporteerd',
+		errorFetchWorkout: 'Fout bij het downloaden van de training. Probeer het opnieuw.',
+		errorImportWorkout: 'Fout bij het importeren van de training. Probeer het opnieuw.',
+		errorNoAuthToken: 'Authenticatietoken niet gevonden. Vernieuw de pagina en probeer het opnieuw.',
+		errorInvalidAuthData: 'Ongeldige authenticatiegegevens. Vernieuw de pagina en probeer het opnieuw.',
+		errorInvalidWorkoutData: 'Ongeldige trainingsgegevens ontvangen. Probeer het opnieuw.',
+		errorInvalidWorkoutFile: 'Ongeldig trainingsbestand. Selecteer een geldig JSON-bestand.',
+		errorImportResponseParsing: 'Training geïmporteerd maar omleiding mislukt. Controleer uw trainingspagina.',
+		couldNotFindSendButton: 'Kan de SendToDevice-knop niet vinden om te klonen'
+	},
+	pl: {
+		downloadButtonLabel: 'Pobierz',
+		importButtonLabel: 'Importuj Trening',
+		workoutImportedCorrectly: 'Trening zaimportowany pomyślnie',
+		errorFetchWorkout: 'Nie udało się pobrać treningu. Spróbuj ponownie.',
+		errorImportWorkout: 'Nie udało się zaimportować treningu. Spróbuj ponownie.',
+		errorNoAuthToken: 'Nie znaleziono tokena uwierzytelnienia. Odśwież stronę i spróbuj ponownie.',
+		errorInvalidAuthData: 'Nieprawidłowe dane uwierzytelnienia. Odśwież stronę i spróbuj ponownie.',
+		errorInvalidWorkoutData: 'Otrzymano nieprawidłowe dane treningu. Spróbuj ponownie.',
+		errorInvalidWorkoutFile: 'Nieprawidłowy plik treningu. Wybierz prawidłowy plik JSON.',
+		errorImportResponseParsing: 'Trening zaimportowany, ale przekierowanie nie powiodło się. Sprawdź swoją stronę treningów.',
+		couldNotFindSendButton: 'Nie można znaleźć przycisku SendToDevice do sklonowania'
+	},
+	ru: {
+		downloadButtonLabel: 'Скачать',
+		importButtonLabel: 'Импортировать Тренировку',
+		workoutImportedCorrectly: 'Тренировка успешно импортирована',
+		errorFetchWorkout: 'Ошибка при загрузке тренировки. Попробуйте еще раз.',
+		errorImportWorkout: 'Ошибка при импорте тренировки. Попробуйте еще раз.',
+		errorNoAuthToken: 'Токен аутентификации не найден. Обновите страницу и попробуйте еще раз.',
+		errorInvalidAuthData: 'Неверные данные аутентификации. Обновите страницу и попробуйте еще раз.',
+		errorInvalidWorkoutData: 'Получены неверные данные тренировки. Попробуйте еще раз.',
+		errorInvalidWorkoutFile: 'Неверный файл тренировки. Выберите правильный JSON-файл.',
+		errorImportResponseParsing: 'Тренировка импортирована, но перенаправление не удалось. Проверьте страницу ваших тренировок.',
+		couldNotFindSendButton: 'Не удалось найти кнопку SendToDevice для клонирования'
+	}
+};
+
+// Helper function to get localized messages
+function getMessage(key) {
+	// Detect language from browser or default to English
+	var lang = (navigator.language || navigator.userLanguage || 'en').substring(0, 2);
+	
+	// Use injected messages if available, otherwise use built-in translations
+	var messages = window.GARMIN_EXTENSION_MESSAGES || TRANSLATIONS[lang] || TRANSLATIONS.en;
+	
+	var message = messages[key];
+	if (!message) {
+		console.warn('Message not found for key:', key);
+		return key;
+	}
+	
+	return message;
+}
+
 class GarminShare {
 	
 	static sendButtonSelector = 'span a.send-to-device';
@@ -8,12 +146,24 @@ class GarminShare {
 		document.addEventListener('GarminShareWorkoutReady', GarminShare.getWorkout);
 	}
 
-	static prepareShareButton(button){
-		button.text = chrome.i18n.getMessage('downloadButtonLabel');
+	static prepareShareButton(button, preserveClasses = false){
+		// Set text content (works for both button and anchor elements)
+		if (button.tagName === 'BUTTON') {
+			button.innerHTML = getMessage('downloadButtonLabel');
+		} else {
+			button.text = getMessage('downloadButtonLabel');
+		}
+		
 		button.removeAttribute('data-target');
 		button.removeAttribute('data-toggle');
+		button.removeAttribute('disabled');
 		button.style.marginLeft = '3px';
-		button.setAttribute('class', 'btn btn-medium');
+		
+		// Only override classes if not preserving original classes
+		if (!preserveClasses) {
+			button.setAttribute('class', 'btn btn-medium');
+		}
+		
 		button.setAttribute('id', 'garmin-share-button');
 		return button;
 	}
@@ -24,7 +174,7 @@ class GarminShare {
 			return; // button already there
 		}
 
-        let jsonBlob = new Blob([workoutText], { type: "text/plain;charset=utf-8" });
+        let jsonBlob = new Blob([workoutText], { type: "application/json;charset=utf-8" });
         let url = window.URL || window.webkitURL;
         let link = url.createObjectURL(jsonBlob);
 		let workout;
@@ -32,7 +182,7 @@ class GarminShare {
 			workout = JSON.parse(workoutText);
 		} catch (e) {
 			console.error('Failed to parse workout JSON:', e);
-			alert(chrome.i18n.getMessage('errorInvalidWorkoutData'));
+			alert(getMessage('errorInvalidWorkoutData'));
 			return;
 		}
 		let title = workout.workoutName.replace(/[^a-z0-9A-Z]+/g, '-');
@@ -40,22 +190,46 @@ class GarminShare {
 		let addButton = document.querySelectorAll(GarminShare.sendButtonSelector);
 		let oldAddButton = document.querySelectorAll(GarminShare.sendButtonAlternativeSelector);
 		if (addButton.length == 0 && oldAddButton.length == 0){
-			console.warn(chrome.i18n.getMessage('couldNotFindSendButton'));
+			console.warn(getMessage('couldNotFindSendButton'));
 			return;
 		}
 		let shareButton;
 		let parentNode;
+		let preserveClasses = false;
+		
 		if (addButton.length > 0) {
 			shareButton = addButton[0].cloneNode(true);
 			parentNode = addButton[0];
 		} else if (oldAddButton.length > 0) {
-			shareButton = document.createElement("a")
+			shareButton = oldAddButton[0].cloneNode(true);
 			parentNode = oldAddButton[0];
+			preserveClasses = true; // Preserve original button classes for oldAddButton
 		}
 		
-		shareButton = GarminShare.prepareShareButton(shareButton);
-		shareButton.download = title + '.json';
-		shareButton.href = link;
+		shareButton = GarminShare.prepareShareButton(shareButton, preserveClasses);
+		
+		// Handle download functionality based on element type
+		if (shareButton.tagName === 'BUTTON') {
+			// For button elements, add click handler to trigger download
+			shareButton.addEventListener('click', function(e) {
+				e.preventDefault();
+				e.stopPropagation();
+				
+				// Create temporary link element for download
+				let tempLink = document.createElement('a');
+				tempLink.href = link;
+				tempLink.download = title + '.json';
+				tempLink.style.display = 'none';
+				document.body.appendChild(tempLink);
+				tempLink.click();
+				document.body.removeChild(tempLink);
+			});
+		} else {
+			// For anchor elements, set href and download attributes directly
+			shareButton.download = title + '.json';
+			shareButton.href = link;
+		}
+		
 		parentNode.parentNode.insertBefore(shareButton, parentNode.nextSibling);	
 
 	}
@@ -70,14 +244,14 @@ class GarminShare {
 					callback(xhr.response);
 				} else {
 					console.error('Failed to fetch workout:', this.status, this.statusText);
-					alert(chrome.i18n.getMessage('errorFetchWorkout'));
+					alert(getMessage('errorFetchWorkout'));
 				}
 			}
 		};
 		let localStoredToken = window.localStorage.getItem("token");
 		if (!localStoredToken) {
 			console.error('No authentication token found');
-			alert(chrome.i18n.getMessage('errorNoAuthToken'));
+			alert(getMessage('errorNoAuthToken'));
 			return;
 		}
 		let accessTokenMap, token;
@@ -89,7 +263,7 @@ class GarminShare {
 			}
 		} catch (e) {
 			console.error('Failed to parse authentication token:', e);
-			alert(chrome.i18n.getMessage('errorInvalidAuthData'));
+			alert(getMessage('errorInvalidAuthData'));
 			return;
 		}
 		
@@ -147,7 +321,7 @@ class GarminImport{
 	}
 
 	static prepareImportButton(button){
-		button.innerHTML = chrome.i18n.getMessage('importButtonLabel');
+		button.innerHTML = getMessage('importButtonLabel');
 		button.removeAttribute('disabled');
 		button.style.marginLeft = '3px';
 		button.setAttribute('class', 'btn btn-form');
@@ -202,16 +376,16 @@ class GarminImport{
 					GarminImport.ajaxRequest('POST', GarminImport.addWorkoutEndpoint, payload, function(response){
 						try {
 							let copiedWorkout = JSON.parse(response);
-							window.alert(chrome.i18n.getMessage('workoutImportedCorrectly'));
+							window.alert(getMessage('workoutImportedCorrectly'));
 							window.location.href = 'https://connect.garmin.com/modern/workout/' + copiedWorkout['workoutId'];
 						} catch (e) {
 							console.error('Failed to parse import response:', e);
-							alert(chrome.i18n.getMessage('errorImportResponseParsing'));
+							alert(getMessage('errorImportResponseParsing'));
 						}
 					});
 				} catch (e) {
 					console.error('Failed to parse uploaded file:', e);
-					alert(chrome.i18n.getMessage('errorInvalidWorkoutFile'));
+					alert(getMessage('errorInvalidWorkoutFile'));
 				}
 			};
 	
@@ -222,7 +396,7 @@ class GarminImport{
 
 	static createWorkoutPayload(uploadedJson){
 		// Delete all the unwanted props
-		for (const propName of GarminImport.deleteProps){
+		for (const propName in GarminImport.deleteProps){
 			if(uploadedJson[propName] !== undefined){
 				delete uploadedJson[propName];
 			}
@@ -257,7 +431,7 @@ class GarminImport{
 					callback(xhr.response);
 				} else {
 					console.error('Failed to import workout:', this.status, this.statusText);
-					alert(chrome.i18n.getMessage('errorImportWorkout'));
+					alert(getMessage('errorImportWorkout'));
 				}
 			}
 		};
@@ -265,7 +439,7 @@ class GarminImport{
 		let localStoredToken = window.localStorage.getItem("token");
 		if (!localStoredToken) {
 			console.error('No authentication token found');
-			alert(chrome.i18n.getMessage('errorNoAuthToken'));
+			alert(getMessage('errorNoAuthToken'));
 			return;
 		}
 		let accessTokenMap, token;
@@ -277,7 +451,7 @@ class GarminImport{
 			}
 		} catch (e) {
 			console.error('Failed to parse authentication token:', e);
-			alert(chrome.i18n.getMessage('errorInvalidAuthData'));
+			alert(getMessage('errorInvalidAuthData'));
 			return;
 		}
 
