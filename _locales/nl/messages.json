@@ -1,0 +1,35 @@
+{
+    "downloadButtonLabel": {
+        "message": "Downloaden"
+    },
+    "importButtonLabel": {
+        "message": "Training Importeren"
+    },
+    "workoutImportedCorrectly": {
+        "message": "Training succesvol geïmporteerd"
+    },
+    "errorFetchWorkout": {
+        "message": "Fout bij het downloaden van de training. Probeer het opnieuw."
+    },
+    "errorImportWorkout": {
+        "message": "Fout bij het importeren van de training. Probeer het opnieuw."
+    },
+    "errorNoAuthToken": {
+        "message": "Authenticatietoken niet gevonden. Vernieuw de pagina en probeer het opnieuw."
+    },
+    "errorInvalidAuthData": {
+        "message": "Ongeldige authenticatiegegevens. Vernieuw de pagina en probeer het opnieuw."
+    },
+    "errorInvalidWorkoutData": {
+        "message": "Ongeldige trainingsgegevens ontvangen. Probeer het opnieuw."
+    },
+    "errorInvalidWorkoutFile": {
+        "message": "Ongeldig trainingsbestand. Selecteer een geldig JSON-bestand."
+    },
+    "errorImportResponseParsing": {
+        "message": "Training geïmporteerd maar omleiding mislukt. Controleer uw trainingspagina."
+    },
+    "couldNotFindSendButton": {
+        "message": "Kan de SendToDevice-knop niet vinden om te klonen"
+    }
+}

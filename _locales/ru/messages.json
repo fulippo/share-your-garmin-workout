@@ -1,0 +1,35 @@
+{
+    "downloadButtonLabel": {
+        "message": "Скачать"
+    },
+    "importButtonLabel": {
+        "message": "Импортировать Тренировку"
+    },
+    "workoutImportedCorrectly": {
+        "message": "Тренировка успешно импортирована"
+    },
+    "errorFetchWorkout": {
+        "message": "Ошибка при загрузке тренировки. Попробуйте еще раз."
+    },
+    "errorImportWorkout": {
+        "message": "Ошибка при импорте тренировки. Попробуйте еще раз."
+    },
+    "errorNoAuthToken": {
+        "message": "Токен аутентификации не найден. Обновите страницу и попробуйте еще раз."
+    },
+    "errorInvalidAuthData": {
+        "message": "Неверные данные аутентификации. Обновите страницу и попробуйте еще раз."
+    },
+    "errorInvalidWorkoutData": {
+        "message": "Получены неверные данные тренировки. Попробуйте еще раз."
+    },
+    "errorInvalidWorkoutFile": {
+        "message": "Неверный файл тренировки. Выберите правильный JSON-файл."
+    },
+    "errorImportResponseParsing": {
+        "message": "Тренировка импортирована, но перенаправление не удалось. Проверьте страницу ваших тренировок."
+    },
+    "couldNotFindSendButton": {
+        "message": "Не удалось найти кнопку SendToDevice для клонирования"
+    }
+}

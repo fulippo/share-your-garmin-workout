@@ -1,0 +1,35 @@
+{
+    "downloadButtonLabel": {
+        "message": "Descargar"
+    },
+    "importButtonLabel": {
+        "message": "Importar Entrenamiento"
+    },
+    "workoutImportedCorrectly": {
+        "message": "Entrenamiento importado correctamente"
+    },
+    "errorFetchWorkout": {
+        "message": "Error al descargar el entrenamiento. Por favor, inténtalo de nuevo."
+    },
+    "errorImportWorkout": {
+        "message": "Error al importar el entrenamiento. Por favor, inténtalo de nuevo."
+    },
+    "errorNoAuthToken": {
+        "message": "Token de autenticación no encontrado. Por favor, actualiza la página e inténtalo de nuevo."
+    },
+    "errorInvalidAuthData": {
+        "message": "Datos de autenticación inválidos. Por favor, actualiza la página e inténtalo de nuevo."
+    },
+    "errorInvalidWorkoutData": {
+        "message": "Datos de entrenamiento inválidos recibidos. Por favor, inténtalo de nuevo."
+    },
+    "errorInvalidWorkoutFile": {
+        "message": "Archivo de entrenamiento inválido. Por favor, selecciona un archivo JSON válido."
+    },
+    "errorImportResponseParsing": {
+        "message": "Entrenamiento importado pero falló la redirección. Por favor, verifica tu página de entrenamientos."
+    },
+    "couldNotFindSendButton": {
+        "message": "No se pudo encontrar el botón SendToDevice para clonar"
+    }
+}

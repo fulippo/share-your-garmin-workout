@@ -1,0 +1,35 @@
+{
+    "downloadButtonLabel": {
+        "message": "Pobierz"
+    },
+    "importButtonLabel": {
+        "message": "Importuj Trening"
+    },
+    "workoutImportedCorrectly": {
+        "message": "Trening zaimportowany pomyślnie"
+    },
+    "errorFetchWorkout": {
+        "message": "Nie udało się pobrać treningu. Spróbuj ponownie."
+    },
+    "errorImportWorkout": {
+        "message": "Nie udało się zaimportować treningu. Spróbuj ponownie."
+    },
+    "errorNoAuthToken": {
+        "message": "Nie znaleziono tokena uwierzytelnienia. Odśwież stronę i spróbuj ponownie."
+    },
+    "errorInvalidAuthData": {
+        "message": "Nieprawidłowe dane uwierzytelnienia. Odśwież stronę i spróbuj ponownie."
+    },
+    "errorInvalidWorkoutData": {
+        "message": "Otrzymano nieprawidłowe dane treningu. Spróbuj ponownie."
+    },
+    "errorInvalidWorkoutFile": {
+        "message": "Nieprawidłowy plik treningu. Wybierz prawidłowy plik JSON."
+    },
+    "errorImportResponseParsing": {
+        "message": "Trening zaimportowany, ale przekierowanie nie powiodło się. Sprawdź swoją stronę treningów."
+    },
+    "couldNotFindSendButton": {
+        "message": "Nie można znaleźć przycisku SendToDevice do sklonowania"
+    }
+}
