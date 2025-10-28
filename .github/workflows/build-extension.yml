@@ -51,7 +51,7 @@ jobs:
       - name: Create extension zip
         run: |
           cd dist
-          zip -r ../share-your-garmin-workout-${{ github.sha }}.zip .
+          zip -r ../share-your-garmin-workout-v${{ steps.version.outputs.version }}.zip .
           cd ..
 
       - name: Get version from manifest
@@ -63,15 +63,15 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
-          name: chrome-extension-v${{ steps.version.outputs.version }}
-          path: share-your-garmin-workout-${{ github.sha }}.zip
+          name: share-your-garmin-workout-v${{ steps.version.outputs.version }}
+          path: share-your-garmin-workout-v${{ steps.version.outputs.version }}.zip
           retention-days: 90
 
       - name: Create Release
         if: startsWith(github.ref, 'refs/tags/v')
         uses: softprops/action-gh-release@v1
         with:
-          files: share-your-garmin-workout-${{ github.sha }}.zip
+          files: share-your-garmin-workout-v${{ steps.version.outputs.version }}.zip
           name: Release v${{ steps.version.outputs.version }}
           draft: false
           prerelease: false
