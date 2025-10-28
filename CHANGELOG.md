@@ -1,3 +1,7 @@
+## 1.4.0
+ - Added proper Chrome i18n support with _locales directory for all 11 languages
+ - Extension now discoverable in all language listings on Chrome Web Store
+ - Added GitHub Actions workflow for automated builds with linting and minification
 ## 1.3.0
  - Added Japanese language support
  - Added Korean language support
@@ -6,8 +10,6 @@
  - Fixed deprecated readAsBinaryString method (now using readAsText with UTF-8)
  - Improved filename sanitization to preserve UTF-8 characters (Japanese, Korean, etc.)
  - Added charset=UTF-8 to Content-Type header for API requests
- - Added proper Chrome i18n support with _locales directory for all 11 languages
- - Extension now discoverable in all language listings on Chrome Web Store
 ## 1.2.0
  - Improved buttons rendering
  - Moved localizations to inline script
