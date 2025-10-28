@@ -51,6 +51,8 @@ jobs:
           cp garmin-inject.min.js dist/garmin-inject.js
           # Copy icons directory
           cp -r icons dist/
+          # Copy locales directory
+          cp -r _locales dist/
           # Copy license
           cp LICENSE dist/
 

@@ -1,0 +1,10 @@
+{
+  "extName": {
+    "message": "Garmin Connectワークアウトを共有",
+    "description": "Extension name"
+  },
+  "extDescription": {
+    "message": "Garmin Connectのワークアウトをダウンロードし、JSONファイルとして共有できます。友達が共有したワークアウトを直接アカウントにインポートできます。",
+    "description": "Extension description"
+  }
+}

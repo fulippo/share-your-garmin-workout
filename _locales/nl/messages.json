@@ -1,0 +1,10 @@
+{
+  "extName": {
+    "message": "Deel je Garmin Connect training",
+    "description": "Extension name"
+  },
+  "extDescription": {
+    "message": "Download en deel je Garmin Connect trainingen als JSON-bestanden. Importeer trainingen die door vrienden zijn gedeeld direct in je account.",
+    "description": "Extension description"
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "extName": {
+    "message": "Comparte tu entrenamiento Garmin Connect",
+    "description": "Extension name"
+  },
+  "extDescription": {
+    "message": "Descarga y comparte tus entrenamientos Garmin Connect como archivos JSON. Importa entrenamientos compartidos por amigos directamente a tu cuenta.",
+    "description": "Extension description"
+  }
+}
