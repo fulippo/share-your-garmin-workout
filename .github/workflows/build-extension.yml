@@ -33,6 +33,12 @@ jobs:
       - name: Minify JavaScript
         run: npm run minify
 
+      - name: Get version from manifest
+        id: version
+        run: |
+          VERSION=$(jq -r '.version' manifest.json)
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+
       - name: Prepare distribution directory
         run: |
           mkdir -p dist
@@ -54,16 +60,10 @@ jobs:
           zip -r ../share-your-garmin-workout-v${{ steps.version.outputs.version }}.zip .
           cd ..
 
-      - name: Get version from manifest
-        id: version
-        run: |
-          VERSION=$(jq -r '.version' manifest.json)
-          echo "version=$VERSION" >> $GITHUB_OUTPUT
-
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
-          name: share-your-garmin-workout-v${{ steps.version.outputs.version }}
+          name: chrome-extension-v${{ steps.version.outputs.version }}
           path: share-your-garmin-workout-v${{ steps.version.outputs.version }}.zip
           retention-days: 90
 
