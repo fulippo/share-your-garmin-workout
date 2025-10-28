@@ -1,0 +1,24 @@
+{
+  "env": {
+    "browser": true,
+    "es2021": true,
+    "webextensions": true
+  },
+  "extends": "eslint:recommended",
+  "parserOptions": {
+    "ecmaVersion": 2022,
+    "sourceType": "script"
+  },
+  "rules": {
+    "no-unused-vars": "warn",
+    "no-console": "off",
+    "no-undef": "error",
+    "semi": "off",
+    "quotes": "off",
+    "no-control-regex": "off",
+    "no-useless-escape": "warn",
+    "no-cond-assign": "off",
+    "no-mixed-spaces-and-tabs": "warn",
+    "no-redeclare": "off"
+  }
+}

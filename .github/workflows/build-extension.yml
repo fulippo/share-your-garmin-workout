@@ -1,0 +1,80 @@
+name: Build Chrome Extension
+
+on:
+  push:
+    branches:
+      - master
+    tags:
+      - 'v*'
+  pull_request:
+    branches:
+      - master
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint JavaScript
+        run: npm run lint
+
+      - name: Minify JavaScript
+        run: npm run minify
+
+      - name: Prepare distribution directory
+        run: |
+          mkdir -p dist
+          # Copy manifest
+          cp manifest.json dist/
+          # Copy HTML files
+          cp popup.html dist/
+          # Copy minified JavaScript
+          cp share-your-workout.min.js dist/share-your-workout.js
+          cp garmin-inject.min.js dist/garmin-inject.js
+          # Copy icons directory
+          cp -r icons dist/
+          # Copy license
+          cp LICENSE dist/
+
+      - name: Create extension zip
+        run: |
+          cd dist
+          zip -r ../share-your-garmin-workout-${{ github.sha }}.zip .
+          cd ..
+
+      - name: Get version from manifest
+        id: version
+        run: |
+          VERSION=$(jq -r '.version' manifest.json)
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: chrome-extension-v${{ steps.version.outputs.version }}
+          path: share-your-garmin-workout-${{ github.sha }}.zip
+          retention-days: 90
+
+      - name: Create Release
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: softprops/action-gh-release@v1
+        with:
+          files: share-your-garmin-workout-${{ github.sha }}.zip
+          name: Release v${{ steps.version.outputs.version }}
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
