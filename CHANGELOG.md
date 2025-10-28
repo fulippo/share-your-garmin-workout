@@ -1,3 +1,16 @@
+## 1.3.0
+ - Added Japanese language support
+ - Added Korean language support
+ - Fixed UTF-8 encoding issues with workout names in API communication
+ - Added UTF-8 charset meta tag to popup.html
+ - Fixed deprecated readAsBinaryString method (now using readAsText with UTF-8)
+ - Improved filename sanitization to preserve UTF-8 characters (Japanese, Korean, etc.)
+ - Added charset=UTF-8 to Content-Type header for API requests
+## 1.2.0
+ - Improved buttons rendering
+ - Moved localizations to inline script
+ - Improved localization and added more robust checks on DOMs
+ - Improved manifest.json file
 ## 1.1.3
  - Fixed script to match changed page layout
 ## 1.1.2

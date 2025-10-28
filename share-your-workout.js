@@ -116,6 +116,32 @@ var TRANSLATIONS = {
 		errorInvalidWorkoutFile: 'Неверный файл тренировки. Выберите правильный JSON-файл.',
 		errorImportResponseParsing: 'Тренировка импортирована, но перенаправление не удалось. Проверьте страницу ваших тренировок.',
 		couldNotFindSendButton: 'Не удалось найти кнопку SendToDevice для клонирования'
+	},
+	ja: {
+		downloadButtonLabel: 'ダウンロード',
+		importButtonLabel: 'ワークアウトをインポート',
+		workoutImportedCorrectly: 'ワークアウトが正常にインポートされました',
+		errorFetchWorkout: 'ワークアウトのダウンロードに失敗しました。もう一度お試しください。',
+		errorImportWorkout: 'ワークアウトのインポートに失敗しました。もう一度お試しください。',
+		errorNoAuthToken: '認証トークンが見つかりません。ページを更新してもう一度お試しください。',
+		errorInvalidAuthData: '認証データが無効です。ページを更新してもう一度お試しください。',
+		errorInvalidWorkoutData: '無効なワークアウトデータを受信しました。もう一度お試しください。',
+		errorInvalidWorkoutFile: '無効なワークアウトファイルです。有効なJSONファイルを選択してください。',
+		errorImportResponseParsing: 'ワークアウトはインポートされましたが、リダイレクトに失敗しました。ワークアウトページをご確認ください。',
+		couldNotFindSendButton: 'SendToDeviceボタンが見つかりませんでした'
+	},
+	ko: {
+		downloadButtonLabel: '다운로드',
+		importButtonLabel: '운동 가져오기',
+		workoutImportedCorrectly: '운동을 성공적으로 가져왔습니다',
+		errorFetchWorkout: '운동 다운로드에 실패했습니다. 다시 시도해 주세요.',
+		errorImportWorkout: '운동 가져오기에 실패했습니다. 다시 시도해 주세요.',
+		errorNoAuthToken: '인증 토큰을 찾을 수 없습니다. 페이지를 새로고침하고 다시 시도해 주세요.',
+		errorInvalidAuthData: '유효하지 않은 인증 데이터입니다. 페이지를 새로고침하고 다시 시도해 주세요.',
+		errorInvalidWorkoutData: '유효하지 않은 운동 데이터를 수신했습니다. 다시 시도해 주세요.',
+		errorInvalidWorkoutFile: '유효하지 않은 운동 파일입니다. 유효한 JSON 파일을 선택해 주세요.',
+		errorImportResponseParsing: '운동을 가져왔지만 리디렉션에 실패했습니다. 운동 페이지를 확인해 주세요.',
+		couldNotFindSendButton: 'SendToDevice 버튼을 찾을 수 없습니다'
 	}
 };
 
@@ -185,7 +211,8 @@ class GarminShare {
 			alert(getMessage('errorInvalidWorkoutData'));
 			return;
 		}
-		let title = workout.workoutName.replace(/[^a-z0-9A-Z]+/g, '-');
+		// Preserve UTF-8 characters, only replace filesystem-invalid characters
+	let title = workout.workoutName.replace(/[<>:"\/\\|?*\x00-\x1F]/g, '-');
 
 		let addButton = document.querySelectorAll(GarminShare.sendButtonSelector);
 		let oldAddButton = document.querySelectorAll(GarminShare.sendButtonAlternativeSelector);
@@ -389,7 +416,7 @@ class GarminImport{
 				}
 			};
 	
-			reader.readAsBinaryString(file);	
+			reader.readAsText(file, 'UTF-8');	
 		}
 	}
 
@@ -457,7 +484,7 @@ class GarminImport{
 
 		
 		xhr.open(method, url, true);
-		xhr.setRequestHeader("Content-Type", "application/json");
+		xhr.setRequestHeader("Content-Type", "application/json; charset=UTF-8");
 		xhr.setRequestHeader("Accept", "application/json, text/javascript, */*; q=0.01");
 	
 		xhr.setRequestHeader("x-app-ver", garminVersion.innerText || '4.27.1.0');
