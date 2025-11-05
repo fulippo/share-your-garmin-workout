@@ -166,7 +166,7 @@ class GarminShare {
 	
 	static sendButtonSelector = 'span a.send-to-device';
 	static sendButtonAlternativeSelector = '#headerBtnRightState-readonly button'
-	static getWorkoutEndpoint = 'https://connect.garmin.com/workout-service/workout/';
+	static getWorkoutEndpoint = 'https://connect.garmin.com/gc-api/workout-service/workout/';
 
 	static addEvents(){
 		document.addEventListener('GarminShareWorkoutReady', GarminShare.getWorkout);
@@ -261,10 +261,19 @@ class GarminShare {
 
 	}
 
+	static getCsrfToken() {
+		// Get CSRF token from meta tag
+		const metaTag = document.querySelector('meta[name="csrf-token"]');
+		if (metaTag) {
+			return metaTag.getAttribute('content');
+		}
+		return null;
+	}
+
 	static ajaxRequest(method, url, callback){
 		let xhr = new XMLHttpRequest();
 
-		
+
 		xhr.onreadystatechange = function() {
 			if (this.readyState == 4) {
 				if (this.status == 200) {
@@ -275,32 +284,21 @@ class GarminShare {
 				}
 			}
 		};
-		let localStoredToken = window.localStorage.getItem("token");
-		if (!localStoredToken) {
-			console.error('No authentication token found');
+
+		// Get CSRF token from meta tag
+		const csrfToken = GarminShare.getCsrfToken();
+		if (!csrfToken) {
+			console.error('No CSRF token found in meta tag');
 			alert(getMessage('errorNoAuthToken'));
 			return;
 		}
-		let accessTokenMap, token;
-		try {
-			accessTokenMap = JSON.parse(localStoredToken);
-			token = accessTokenMap.access_token;
-			if (!token) {
-				throw new Error('Access token not found in stored data');
-			}
-		} catch (e) {
-			console.error('Failed to parse authentication token:', e);
-			alert(getMessage('errorInvalidAuthData'));
-			return;
-		}
-		
-		xhr.open(method, url);		
-		xhr.setRequestHeader("x-app-ver", "4.41.1.0");
+
+		xhr.open(method, url);
+		xhr.setRequestHeader("accept", "*/*");
+		xhr.setRequestHeader("accept-language", navigator.language || "en-US");
+		xhr.setRequestHeader("cache-control", "no-cache");
+		xhr.setRequestHeader("connect-csrf-token", csrfToken);
 		xhr.setRequestHeader("x-requested-with", "XMLHttpRequest");
-		xhr.setRequestHeader("x-lang", "it-IT");
-		xhr.setRequestHeader("nk", "NT");
-		xhr.setRequestHeader("Di-Backend", "connectapi.garmin.com");
-		xhr.setRequestHeader("authorization", "Bearer "+token);
 
 		xhr.withCredentials = true;
 		xhr.send();
@@ -331,7 +329,7 @@ GarminShare.addEvents();
 class GarminImport{
 	
 	static createWorkoutButtonSelector = 'button.create-workout';
-	static addWorkoutEndpoint = 'https://connect.garmin.com/workout-service/workout';
+	static addWorkoutEndpoint = 'https://connect.garmin.com/gc-api/workout-service/workout';
 
 	static deleteProps = [
 		'workoutId',
@@ -447,11 +445,19 @@ class GarminImport{
 	}
 
 
+	static getCsrfToken() {
+		// Get CSRF token from meta tag
+		const metaTag = document.querySelector('meta[name="csrf-token"]');
+		if (metaTag) {
+			return metaTag.getAttribute('content');
+		}
+		return null;
+	}
+
 	static ajaxRequest(method, url, payload, callback){
 
-		let garminVersion = document.getElementById('garmin-connect-version');
 		let xhr = new XMLHttpRequest();
-		
+
 		xhr.onreadystatechange = function() {
 			if (this.readyState == 4) {
 				if (this.status == 200) {
@@ -463,41 +469,26 @@ class GarminImport{
 			}
 		};
 
-		let localStoredToken = window.localStorage.getItem("token");
-		if (!localStoredToken) {
-			console.error('No authentication token found');
+		// Get CSRF token from meta tag
+		const csrfToken = GarminImport.getCsrfToken();
+		if (!csrfToken) {
+			console.error('No CSRF token found in meta tag');
 			alert(getMessage('errorNoAuthToken'));
 			return;
 		}
-		let accessTokenMap, token;
-		try {
-			accessTokenMap = JSON.parse(localStoredToken);
-			token = accessTokenMap.access_token;
-			if (!token) {
-				throw new Error('Access token not found in stored data');
-			}
-		} catch (e) {
-			console.error('Failed to parse authentication token:', e);
-			alert(getMessage('errorInvalidAuthData'));
-			return;
-		}
 
-		
 		xhr.open(method, url, true);
 		xhr.setRequestHeader("Content-Type", "application/json; charset=UTF-8");
 		xhr.setRequestHeader("Accept", "application/json, text/javascript, */*; q=0.01");
-	
-		xhr.setRequestHeader("x-app-ver", garminVersion.innerText || '4.27.1.0');
+		xhr.setRequestHeader("accept-language", navigator.language || "en-US");
+		xhr.setRequestHeader("cache-control", "no-cache");
+		xhr.setRequestHeader("connect-csrf-token", csrfToken);
 		xhr.setRequestHeader("x-requested-with", "XMLHttpRequest");
-		xhr.setRequestHeader("x-lang", "it-IT");
-		xhr.setRequestHeader("nk", "NT");
-		xhr.setRequestHeader("Di-Backend", "connectapi.garmin.com");
-		xhr.setRequestHeader("authorization", "Bearer "+token);
 		xhr.withCredentials = true;
 
 		xhr.send(JSON.stringify(payload));
 
-		
+
 	}
 
 }
