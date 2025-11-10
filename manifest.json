@@ -1,6 +1,6 @@
 {
 	"name": "__MSG_extName__",
-	"version": "1.5.0",
+	"version": "1.5.1",
 	"description": "__MSG_extDescription__",
 	"default_locale": "en",
 	"author": "Filippo Pisano",
@@ -31,7 +31,8 @@
 		{
 			"matches": [
 				"https://connect.garmin.com/*",
-				"https://connect.garmin.cn/*"
+				"https://connect.garmin.cn/*",
+				"https://connectus.garmin.cn/*"
 			],
 			"run_at": "document_idle",
 			"js": [
@@ -47,14 +48,16 @@
 			],
 			"matches": [
 				"https://connect.garmin.com/*",
-				"https://connect.garmin.cn/*"
+				"https://connect.garmin.cn/*",
+				"https://connectus.garmin.cn/*"
 			]
 		}
 	],
 	
 	"host_permissions": [
 		"*://connect.garmin.com/*",
-		"*://connect.garmin.cn/*"
+		"*://connect.garmin.cn/*",
+		"*://connectus.garmin.cn/*"
 	],
 	
 	"manifest_version": 3
