@@ -166,8 +166,7 @@ class GarminShare {
 	
 	static sendButtonSelector = 'span a.send-to-device';
 	static sendButtonAlternativeSelector = '#headerBtnRightState-readonly button'
-	static getWorkoutEndpoint = 'https://connect.garmin.com/gc-api/workout-service/workout/';
-
+	static getWorkoutEndpoint = '/gc-api/workout-service/workout/';
 	static addEvents(){
 		document.addEventListener('GarminShareWorkoutReady', GarminShare.getWorkout);
 	}
@@ -329,7 +328,7 @@ GarminShare.addEvents();
 class GarminImport{
 	
 	static createWorkoutButtonSelector = 'button.create-workout';
-	static addWorkoutEndpoint = 'https://connect.garmin.com/gc-api/workout-service/workout';
+	static addWorkoutEndpoint = '/gc-api/workout-service/workout';
 
 	static deleteProps = [
 		'workoutId',
