@@ -4,6 +4,9 @@ on:
   push:
     branches:
       - master
+    paths-ignore:
+      - 'release-please-config.json'
+      - '.release-please-manifest.json'
 
 permissions:
   contents: write
