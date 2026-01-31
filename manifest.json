@@ -1,6 +1,6 @@
 {
 	"name": "__MSG_extName__",
-	"version": "1.5.3",
+	"version": "1.5.4",
 	"description": "__MSG_extDescription__",
 	"default_locale": "en",
 	"author": "Filippo Pisano",
