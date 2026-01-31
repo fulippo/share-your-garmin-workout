@@ -1,6 +1,6 @@
 {
   "name": "share-your-garmin-workout",
-  "version": "1.5.3",
+  "version": "1.5.4",
   "description": "Download and share your Garmin Connect workouts",
   "private": true,
   "scripts": {
