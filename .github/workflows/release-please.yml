@@ -1,0 +1,70 @@
+name: Release Please
+
+on:
+  push:
+    branches:
+      - master
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  release-please:
+    runs-on: ubuntu-latest
+    outputs:
+      release_created: ${{ steps.release.outputs.release_created }}
+      tag_name: ${{ steps.release.outputs.tag_name }}
+      version: ${{ steps.release.outputs.version }}
+    steps:
+      - uses: googleapis/release-please-action@v4
+        id: release
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          config-file: release-please-config.json
+          manifest-file: .release-please-manifest.json
+
+  build-and-release:
+    needs: release-please
+    if: ${{ needs.release-please.outputs.release_created }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Lint JavaScript
+        run: npm run lint
+
+      - name: Minify JavaScript
+        run: npm run minify
+
+      - name: Prepare distribution directory
+        run: |
+          mkdir -p dist
+          cp manifest.json dist/
+          cp popup.html dist/
+          cp share-your-workout.min.js dist/share-your-workout.js
+          cp garmin-inject.min.js dist/garmin-inject.js
+          cp -r icons dist/
+          cp -r _locales dist/
+          cp LICENSE dist/
+
+      - name: Create extension zip
+        run: |
+          cd dist
+          zip -r ../share-your-garmin-workout-v${{ needs.release-please.outputs.version }}.zip .
+
+      - name: Upload Release Asset
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release upload ${{ needs.release-please.outputs.tag_name }} \
+            share-your-garmin-workout-v${{ needs.release-please.outputs.version }}.zip
