@@ -354,13 +354,20 @@ class GarminImport {
 
 
 	static getCreateWorkoutButton() {
-		// Priority 1: Selector match
+		// Priority 1: Selector match (old interface)
 		let btn = document.querySelector(GarminImport.createWorkoutButtonSelector);
 		if (btn) return btn;
 
-		// Priority 2: Text content fallback (using Array.from for cleaner iteration)
+		// Priority 2: New interface - find button inside WorkoutsCreate container
+		const newContainer = document.querySelector('[class*="WorkoutsCreate_workoutCreate"]');
+		if (newContainer) {
+			btn = newContainer.querySelector('button');
+			if (btn) return btn;
+		}
+
+		// Priority 3: Text content fallback (using Array.from for cleaner iteration)
 		const candidates = document.querySelectorAll('button, a, div[role="button"]');
-		const targetPattern = /^(create\s*workout|创建训练|create\s*a\s*workout)$/i;
+		const targetPattern = /^(create\s*workout|创建训练|create\s*a\s*workout|crear.*sesi[oó]n.*entrenamiento)$/i;
 
 		return Array.from(candidates).find(b => {
 			const text = (b.innerText || b.textContent || '').trim();
@@ -520,15 +527,15 @@ class GarminEvent {
 		let currentUrl = window.location.href;
 		let body = document.body;
 
-		// Check for workout index page (workouts list)
-		if ((currentUrl.includes('/modern/workouts') || currentUrl.includes('/workouts')) &&
-			(body.classList.contains('body-workouts-index') || GarminImport.getCreateWorkoutButton())) {
+		// Check for workout index page (workouts list) - supports both /modern/workouts and /app/workouts
+		if ((currentUrl.includes('/modern/workouts') || currentUrl.includes('/app/workouts') || currentUrl.includes('/workouts')) &&
+			(body.classList.contains('body-workouts-index') || GarminImport.getCreateWorkoutButton() || document.querySelector('[class*="WorkoutsCreate"]'))) {
 			GarminEvent.dispatchEvent('GarminImportWorkoutReady');
 			return true;
 		}
 
-		// Check for individual workout page
-		if ((currentUrl.includes('/modern/workout/') || currentUrl.includes('/workout/')) &&
+		// Check for individual workout page - supports both /modern/workout/ and /app/workout/
+		if ((currentUrl.includes('/modern/workout/') || currentUrl.includes('/app/workout/') || currentUrl.includes('/workout/')) &&
 			(body.classList.contains('body-workout') || body.classList.contains('body-workoutPage') ||
 				document.querySelector(GarminShare.sendButtonSelector) || document.querySelector(GarminShare.sendButtonAlternativeSelector))) {
 			GarminEvent.dispatchEvent('GarminShareWorkoutReady');
