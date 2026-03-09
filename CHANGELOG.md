@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.5.5](https://github.com/fulippo/share-your-garmin-workout/compare/v1.5.4...v1.5.5) (2026-03-09)
+
+
+### Bug Fixes
+
+* **ui:** correct the position of the workout import button on the activity list page ([7a462d0](https://github.com/fulippo/share-your-garmin-workout/commit/7a462d0de4dcc6256d068529f17c059b158ab647))
+* **ui:** correct the position of the workout import button on the activity list page ([ab6ad32](https://github.com/fulippo/share-your-garmin-workout/commit/ab6ad323e6e7d9292d1ed545c0e1a7b97d08ced3))
+
 ## [1.5.4](https://github.com/fulippo/share-your-garmin-workout/compare/v1.5.3...v1.5.4) (2026-02-04)
 
 
