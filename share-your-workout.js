@@ -361,7 +361,7 @@ class GarminImport {
 		// Priority 2: New interface - find button inside WorkoutsCreate container
 		const newContainer = document.querySelector('[class*="WorkoutsCreate_workoutCreate"]');
 		if (newContainer) {
-			btn = newContainer.querySelector('button');
+			btn = newContainer.querySelector('button[class*=Button_primary]');
 			if (btn) return btn;
 		}
 
