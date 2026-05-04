@@ -435,7 +435,9 @@ class GarminImport {
 						try {
 							let copiedWorkout = JSON.parse(response);
 							window.alert(getMessage('workoutImportedCorrectly'));
-							window.location.href = 'https://connect.garmin.com/modern/workout/' + copiedWorkout['workoutId'];
+							const sportTypeKey = copiedWorkout.sportType && copiedWorkout.sportType.sportTypeKey;
+							const queryString = sportTypeKey ? '?workoutType=' + encodeURIComponent(sportTypeKey) : '';
+							window.location.href = 'https://connect.garmin.com/app/workout/' + copiedWorkout['workoutId'] + queryString;
 						} catch (e) {
 							console.error('Failed to parse import response:', e);
 							alert(getMessage('errorImportResponseParsing'));
