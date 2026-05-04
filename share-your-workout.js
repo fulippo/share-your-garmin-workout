@@ -358,11 +358,17 @@ class GarminImport {
 		let btn = document.querySelector(GarminImport.createWorkoutButtonSelector);
 		if (btn) return btn;
 
-		// Priority 2: New interface - find button inside WorkoutsCreate container
-		const newContainer = document.querySelector('[class*="WorkoutsCreate_workoutCreate"]');
-		if (newContainer) {
-			btn = newContainer.querySelector('button[class*=Button_primary]');
-			if (btn) return btn;
+		// Priority 2: New interface - find button inside known container variants
+		const containerSelectors = [
+			'[class*="WorkoutsListContainer_createWorkoutButton"]',
+			'[class*="WorkoutsCreate_workoutCreate"]'
+		];
+		for (const selector of containerSelectors) {
+			const container = document.querySelector(selector);
+			if (container) {
+				btn = container.querySelector('button[class*=Button_primary]') || container.querySelector('button');
+				if (btn) return btn;
+			}
 		}
 
 		// Priority 3: Text content fallback (using Array.from for cleaner iteration)
@@ -429,7 +435,9 @@ class GarminImport {
 						try {
 							let copiedWorkout = JSON.parse(response);
 							window.alert(getMessage('workoutImportedCorrectly'));
-							window.location.href = 'https://connect.garmin.com/modern/workout/' + copiedWorkout['workoutId'];
+							const sportTypeKey = copiedWorkout.sportType && copiedWorkout.sportType.sportTypeKey;
+							const queryString = sportTypeKey ? '?workoutType=' + encodeURIComponent(sportTypeKey) : '';
+							window.location.href = 'https://connect.garmin.com/app/workout/' + copiedWorkout['workoutId'] + queryString;
 						} catch (e) {
 							console.error('Failed to parse import response:', e);
 							alert(getMessage('errorImportResponseParsing'));
@@ -527,18 +535,22 @@ class GarminEvent {
 		let currentUrl = window.location.href;
 		let body = document.body;
 
-		// Check for workout index page (workouts list) - supports both /modern/workouts and /app/workouts
-		if ((currentUrl.includes('/modern/workouts') || currentUrl.includes('/app/workouts') || currentUrl.includes('/workouts')) &&
-			(body.classList.contains('body-workouts-index') || GarminImport.getCreateWorkoutButton() || document.querySelector('[class*="WorkoutsCreate"]'))) {
-			GarminEvent.dispatchEvent('GarminImportWorkoutReady');
+		// Check for individual workout page first (more specific match).
+		// Matches /workout/{id}, /workouts/{id}, and /modern/ or /app/ prefixed variants.
+		if (/\/workouts?\/\d+/.test(currentUrl) &&
+			(body.classList.contains('body-workout') || body.classList.contains('body-workoutPage') ||
+				document.querySelector(GarminShare.sendButtonSelector) ||
+				document.querySelector(GarminShare.sendButtonAlternativeSelector) ||
+				document.querySelector('[class*="WorkoutPageContent"]') ||
+				document.querySelector('[class*="WorkoutPageHeader"]'))) {
+			GarminEvent.dispatchEvent('GarminShareWorkoutReady');
 			return true;
 		}
 
-		// Check for individual workout page - supports both /modern/workout/ and /app/workout/
-		if ((currentUrl.includes('/modern/workout/') || currentUrl.includes('/app/workout/') || currentUrl.includes('/workout/')) &&
-			(body.classList.contains('body-workout') || body.classList.contains('body-workoutPage') ||
-				document.querySelector(GarminShare.sendButtonSelector) || document.querySelector(GarminShare.sendButtonAlternativeSelector))) {
-			GarminEvent.dispatchEvent('GarminShareWorkoutReady');
+		// Check for workout index page (workouts list) - supports both /modern/workouts and /app/workouts
+		if ((currentUrl.includes('/modern/workouts') || currentUrl.includes('/app/workouts') || currentUrl.includes('/workouts')) &&
+			(body.classList.contains('body-workouts-index') || GarminImport.getCreateWorkoutButton() || document.querySelector('[class*="WorkoutsCreate"]') || document.querySelector('[class*="WorkoutsListContainer"]'))) {
+			GarminEvent.dispatchEvent('GarminImportWorkoutReady');
 			return true;
 		}
 
