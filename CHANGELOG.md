@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.5.6](https://github.com/fulippo/share-your-garmin-workout/compare/v1.5.5...v1.5.6) (2026-05-04)
+
+
+### Bug Fixes
+
+* **ui:** support new Garmin Connect /app/ workouts UI ([#34](https://github.com/fulippo/share-your-garmin-workout/issues/34)) ([e037a1b](https://github.com/fulippo/share-your-garmin-workout/commit/e037a1b460a76b65062253124622e47e152533fb))
+
 ## [1.5.5](https://github.com/fulippo/share-your-garmin-workout/compare/v1.5.4...v1.5.5) (2026-03-09)
 
 
